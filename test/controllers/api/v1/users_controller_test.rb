@@ -20,4 +20,13 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_equal response.body, expected_response
   end
+
+  test "Crear un usuario" do
+    prev_users = User.count
+    post "/api/v1/users/", params: { user: { username: "Prueba", password: "12345", email:"sadasdasd" } }
+    assert_response :success
+    assert_equal prev_users + 1, User.count
+    expected_response = "{\"id\":980190963,\"username\":\"Prueba\",\"email\":\"sadasdasd\"}"
+    assert_equal response.body, expected_response
+  end
 end
