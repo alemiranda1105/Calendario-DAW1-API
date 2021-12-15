@@ -1,5 +1,4 @@
 class Api::V1::UsersController < ApplicationController
-  before_action :set_user, only: %i[ show edit update destroy ]
 
   # GET /users or /users.json
   def index
@@ -18,14 +17,29 @@ class Api::V1::UsersController < ApplicationController
     end
   end
 
-  # POST user
+  # POST user (registro de nuevo usuario)
   def create
     @user = User.new(user_params)
     if @user.save
-      result = { id: @user.id, username: @user.username, email: @user.email }
+      @session = Session.create(user_id: @user.id, token: SecureRandom.hex)
+      result = { user: { id: @user.id, username: @user.username, email: @user.email }, session: { token: @session.token } }
       render json: result
     else
       render json: { error: "Ha ocurrido un error" }, status: :not_found
+    end
+  end
+
+  def login
+    @user = User.find_by_username(params[:username])
+    if @user
+      if @user.password == params[:password]
+        @session = Session.create(user_id: @user.id, token: SecureRandom.hex)
+        render json: { user: { id: @user.id, username: @user.username, email: @user.email }, session: { token: @session.token } }
+      else
+        render json: { error: "Contraseña/Usuario incorrecto" }, status: :unauthorized
+      end
+    else
+      render json: { error: "Contraseña/Usuario incorrecto" }, status: :unauthorized
     end
   end
 
