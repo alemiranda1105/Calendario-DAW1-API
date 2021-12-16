@@ -17,6 +17,12 @@ class Api::V1::UsersController < ApplicationController
     end
   end
 
+  # GET user por id
+  def show
+    @user = User.find(params[:id])
+    respond_to :json
+  end
+
   # POST user (registro de nuevo usuario)
   def create
     @user = User.new(user_params)
