@@ -4,7 +4,7 @@ Rails.application.routes.draw do
       resources :users, only: [:index, :create, :show]
       resources :sessions, only: [:index, :create, :destroy]
       post 'users/login', to: 'users#login'
-      resources :groups
+      resources :groups, only: [:index, :show]
     end
   end
 end

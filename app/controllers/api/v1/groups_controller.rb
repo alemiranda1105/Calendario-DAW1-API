@@ -4,4 +4,10 @@ class Api::V1::GroupsController < ApplicationController
     @groups = Group.all
     respond_to :json
   end
+
+  # GET groups por id 
+  def show
+    @group = Group.find(params[:id])
+    respond_to :json
+  end
 end
