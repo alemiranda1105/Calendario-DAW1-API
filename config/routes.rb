@@ -4,6 +4,7 @@ Rails.application.routes.draw do
       resources :users, only: [:index, :create, :show]
       resources :sessions, only: [:index, :create, :destroy]
       post 'users/login', to: 'users#login'
+      post 'users/add_friend', to: 'users#add_friend'
       resources :groups, only: [:index, :show]
     end
   end
