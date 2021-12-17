@@ -8,6 +8,11 @@ if @users
             json.group group.group_id
         end
     end
+    json.friends do
+      json.array! user.friendships do |friend|
+        json.friend friend.id
+      end
+    end
   end
 else
   json.id @user.id
@@ -17,5 +22,10 @@ else
       json.array! @user.group_users.each do |group|
           json.group group.group_id
       end
+  end
+  json.friends do
+    json.array! @user.friendships do |friend|
+      json.friend friend.id
+    end
   end
 end
