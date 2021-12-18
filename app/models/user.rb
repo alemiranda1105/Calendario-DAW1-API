@@ -7,4 +7,5 @@ class User < ApplicationRecord
                           join_table: :friendships,
                           foreign_key: :user_id,
                           association_foreign_key: :friend_user_id
+  has_many :events, :foreign_key => "owner_id", :class_name => "Event"
 end
