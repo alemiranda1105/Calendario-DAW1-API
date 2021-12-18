@@ -10,10 +10,19 @@ class Api::V1::EventController < ApplicationController
   end
 
   def create
-    @event = Event.new(event_params)
+    if params[:individual]
+      @event = Event.new(event_params)
+    else
+      @event = Event.new(event_group_params)
+    end
     if @event.save
-      user = User.find(params[:owner_id])
-      user.events << @event
+      if @event.owner_id
+        user = User.find(params[:owner_id])
+        user.events << @event
+      else
+        group = Group.find(params[:group_id])
+        group.events << @event
+      end
       render json: { evento: @event }
     else
       render json: { error: "Ha sucedido un error" }, status: :internal_server_error
@@ -39,6 +48,10 @@ class Api::V1::EventController < ApplicationController
 
   def event_params
     params.require(:event).permit(:name, :description, :date, :individual, :owner_id)
+  end
+  
+  def event_group_params
+    params.require(:event).permit(:name, :description, :date, :individual, :group_id)
   end
 
 end

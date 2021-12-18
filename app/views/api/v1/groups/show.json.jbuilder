@@ -5,3 +5,14 @@ json.users do
         json.user user.id
     end
 end
+json.events do
+  json.array! @group.events do |event|
+    json.event do
+      json.id event.id
+      json.name event.name
+      json.description event.description
+      json.date event.date
+      json.individual event.individual
+    end
+  end
+end
