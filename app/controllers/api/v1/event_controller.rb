@@ -1,6 +1,10 @@
 class Api::V1::EventController < ApplicationController
   def index
-    @events = Event.all
+    if params[:owner_id]
+      @events = Event.where(owner_id: params[:owner_id]).all
+    elsif params[:group_id]
+      @events = Event.where(group_id: params[:group_id]).all
+    end
     respond_to :json
   end
 
