@@ -25,9 +25,9 @@ class Api::V1::SessionsController < ApplicationController
   end
 
   # destroy para logout
-  def destroy
-    @session = Session.find(params[:id])
+  def logout
+    @session = Session.find_by(token: params[:token])
     @session.destroy
-    render json: { ok: true }, status: :ok
+    render json: { logout: true }, status: :ok
   end
 end
