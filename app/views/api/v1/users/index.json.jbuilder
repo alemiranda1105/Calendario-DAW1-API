@@ -13,6 +13,14 @@ if @users
         json.friend friend.id
       end
     end
+    json.friendRequest do
+      json.array! user.friend_requests do |request|
+        json.request do
+          json.id request.id
+          json.sender request.sender
+        end
+      end
+    end
     json.events do
       json.array! user.events do |event|
         json.event do
@@ -37,6 +45,14 @@ else
   json.friends do
     json.array! @user.friendships do |friend|
       json.friend friend.id
+    end
+  end
+  json.friendRequest do
+    json.array! @user.friend_requests do |request|
+      json.request do
+        json.id request.id
+        json.sender request.sender
+      end
     end
   end
   json.events do
