@@ -33,13 +33,13 @@ end
 count = 0
 while count < 20 do
   if count < 10
-    rand_id = rand(1..User.all.length+1)
+    rand_id = rand(1..User.all.length)
     user = User.find(rand_id)
     event = Event.create({ name: "Evento #{count}", description: "Esta es las desc. del evento #{count}",
                            date:"#{count}-01-2022" ,individual: true, owner_id: rand_id })
     user.events << event
   else
-    rand_id = rand(1..Group.all.length+1)
+    rand_id = rand(1..Group.all.length)
     group = Group.find(rand_id)
     event = Event.create({ name: "Evento #{count}", description: "Esta es las desc. del evento #{count}",
                            date:"#{count}-01-2022" ,individual: false, group_id: rand_id })
