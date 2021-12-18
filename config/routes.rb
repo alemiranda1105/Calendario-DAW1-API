@@ -4,7 +4,8 @@ Rails.application.routes.draw do
       resources :users, only: [:index, :create, :show] do
         resources :friend_request, only: [:show, :create, :destroy]
       end
-      resources :sessions, only: [:index, :create, :destroy]
+      resources :sessions, only: [:index, :create]
+      delete 'session/logout', to: 'sessions#logout'
       post 'users/login', to: 'users#login'
       post 'users/add_friend', to: 'users#add_friend'
       resources :groups, only: [:index, :show]
