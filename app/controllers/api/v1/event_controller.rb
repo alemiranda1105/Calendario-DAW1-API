@@ -21,7 +21,12 @@ class Api::V1::EventController < ApplicationController
   end
 
   def update
-
+    @event = Event.find(params[:id])
+    if @event.update(event_params)
+      render json: { evento: @event }
+    else
+      render json: { error: "Ha ocurrido un error" }, status: :internal_server_error
+    end
   end
 
   def destroy
