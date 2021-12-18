@@ -49,6 +49,18 @@ class Api::V1::UsersController < ApplicationController
     end
   end
 
+  def add_friend
+    @user = User.find(params[:user_id])
+    new_friend = User.find(params[:friend_id])
+    old_friends = @user.friendships.length
+    @user.friendships << new_friend
+    if old_friends < @user.friendships.length
+      respond_to :json
+    else
+      render json: { error: "no se ha podido añadir al amigo" }, status: :not_acceptable
+    end
+  end
+
   private
 
   def user_params

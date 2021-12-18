@@ -6,11 +6,47 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-users = User.create([{ username:'pepe', email:'pepe', password:'12345' }, { username:'maria', email:'maria', password:'12345' }])
-groups = Group.create([{ name:"test1" }, {name:"test2"}])
+users = User.create([{ username:'pepe', email:'pepe', password:'12345' }, { username:'maria', email:'maria', password:'12345' },
+                     { username:'paco', email:'paco', password:'12345' }, { username:'jose', email:'jose', password:'12345' },
+                     { username:'marcos', email:'marcos', password:'12345' }, { username:'tuma', email:'tuma', password:'12345' }])
+groups = Group.create([{ name:"universidad" }, {name:"futbol"}, {name: "tenis"}])
 
-for g in groups do
-    for u in users do
-        GroupUser.create(user_id: u.id, group_id: g.id)
-    end
+groups.each do |g|
+  users.each do |u|
+    n = rand(0..2)
+    GroupUser.create(user_id: u.id, group_id: g.id) if n == 1
+  end
 end
+
+User.all.each do |user|
+  n = 0
+  while n <= 2 do
+    random = rand(1..User.all.length)
+    new_friend = User.find(random)
+    if new_friend.id != user.id && !user.friendships.include?(new_friend)
+      user.friendships << new_friend
+    end
+    n += 1
+  end
+end
+
+count = 0
+while count < 20 do
+  if count < 10
+    rand_id = rand(1..User.all.length+1)
+    user = User.find(rand_id)
+    event = Event.create({ name: "Evento #{count}", description: "Esta es las desc. del evento #{count}",
+                           date:"#{count}-01-2022" ,individual: true, owner_id: rand_id })
+    user.events << event
+  else
+    rand_id = rand(1..Group.all.length+1)
+    group = Group.find(rand_id)
+    event = Event.create({ name: "Evento #{count}", description: "Esta es las desc. del evento #{count}",
+                           date:"#{count}-01-2022" ,individual: false, group_id: rand_id })
+    group.events << event
+  end
+  count += 1
+end
+
+
+
