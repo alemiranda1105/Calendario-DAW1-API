@@ -30,6 +30,18 @@ User.all.each do |user|
   end
 end
 
+User.all.each do |user|
+  n = 0
+  while n <= 3 do
+    random = rand(1..User.all.length)
+    new_request = FriendRequest.new(receiver: user.id, sender: random)
+    if user.id != random && !user.friend_requests.include?(new_request)
+      user.friend_requests << new_request
+    end
+    n += 1
+  end
+end
+
 count = 0
 while count < 20 do
   if count < 10
