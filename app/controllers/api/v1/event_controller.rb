@@ -9,4 +9,29 @@ class Api::V1::EventController < ApplicationController
     respond_to :json
   end
 
+  def create
+    @event = Event.new(event_params)
+    if @event.save
+      user = User.find(params[:owner_id])
+      user.events << @event
+      render json: { evento: @event }
+    else
+      render json: { error: "Ha sucedido un error" }, status: :internal_server_error
+    end
+  end
+
+  def update
+
+  end
+
+  def destroy
+
+  end
+
+  private
+
+  def event_params
+    params.require(:event).permit(:name, :description, :date, :individual, :owner_id)
+  end
+
 end
