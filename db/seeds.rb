@@ -13,8 +13,8 @@ groups = Group.create([{ name:"universidad" }, {name:"futbol"}, {name: "tenis"}]
 
 groups.each do |g|
   users.each do |u|
-    n = rand(0..2)
-    GroupUser.create(user_id: u.id, group_id: g.id) if n == 1
+    n = rand(0..5)
+    GroupUser.create(user_id: u.id, group_id: g.id) if n > 1
   end
 end
 
