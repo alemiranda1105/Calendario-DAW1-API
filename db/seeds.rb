@@ -11,54 +11,7 @@ users = User.create([{ username:'pepe', email:'pepe', password:'12345' }, { user
                      { username:'marcos', email:'marcos', password:'12345' }, { username:'tuma', email:'tuma', password:'12345' }])
 groups = Group.create([{ name:"universidad" }, {name:"futbol"}, {name: "tenis"}])
 
-groups.each do |g|
-  users.each do |u|
-    n = rand(0..5)
-    GroupUser.create(user_id: u.id, group_id: g.id) if n > 1
-  end
-end
 
-User.all.each do |user|
-  n = 0
-  while n <= 2 do
-    random = rand(1..User.all.length)
-    new_friend = User.find(random)
-    if new_friend.id != user.id && !user.friendships.include?(new_friend)
-      user.friendships << new_friend
-    end
-    n += 1
-  end
-end
-
-User.all.each do |user|
-  n = 0
-  while n <= 3 do
-    random = rand(1..User.all.length)
-    new_request = FriendRequest.new(receiver: user.id, sender: random)
-    if user.id != random && !user.friend_requests.include?(new_request)
-      user.friend_requests << new_request
-    end
-    n += 1
-  end
-end
-
-count = 1
-while count < 20 do
-  if count < 11
-    rand_id = rand(1..User.all.length)
-    user = User.find(rand_id)
-    event = Event.create({ name: "Evento #{count}", description: "Esta es las desc. del evento #{count}",
-                           date:"0#{count}-01-2022" ,individual: true, owner_id: rand_id })
-    user.events << event
-  else
-    rand_id = rand(1..Group.all.length)
-    group = Group.find(rand_id)
-    event = Event.create({ name: "Evento #{count}", description: "Esta es las desc. del evento #{count}",
-                           date:"#{count}-01-2022" ,individual: false, group_id: rand_id })
-    group.events << event
-  end
-  count += 1
-end
 
 
 
