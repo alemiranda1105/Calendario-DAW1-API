@@ -9,7 +9,7 @@ Rails.application.routes.draw do
       delete 'session/logout', to: 'sessions#logout'
       post 'users/login', to: 'users#login'
       post 'users/add_friend', to: 'users#add_friend'
-      resources :groups, only: [:index, :show]
+      resources :groups, only: [:index, :show, :create, :update]
       resources :group_users, only: [:create]
       delete 'group_users/leave_group', to: 'group_users#leave_group'
       resources :event, only: [:index, :show, :create, :update, :destroy]
