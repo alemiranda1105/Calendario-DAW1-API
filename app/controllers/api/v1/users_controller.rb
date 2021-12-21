@@ -54,6 +54,7 @@ class Api::V1::UsersController < ApplicationController
     new_friend = User.find(params[:friend_id])
     old_friends = @user.friendships.length
     @user.friendships << new_friend
+    new_friend.friendships << @user
     if old_friends < @user.friendships.length
       respond_to :json
     else
